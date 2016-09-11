@@ -677,9 +677,10 @@
              <b>5 - ANUALLY EVERY DAY OF THE WEEK </b> <br />  
              The event is repeated every specific day of the week, every year (Frequency=1) or 
              every certain years (Frenquency=n). When using this rule DayOfWeek and OrdinalDayOfTheWeek properties
-             must be specified.
+             must be specified. The month is taken from StartDate month
              <br/><br/>
              Example 1: The third Tuesday in February every year<br/>
+               "StarDate": "2016-02-28" <br/>
                "Recurrent": true <br/>
                "FrequencyRule": 5 <br/>
                "Frequency": 1 <br/>
@@ -687,6 +688,7 @@
                "OrdinalDayOfTheWeek": 3 <br/>
             <br/>
              Example 2: The last Thurday in November, every 3 years <br/>
+               "StarDate": "2016-11-01" <br/>
                "Recurrent": true <br/>
                "FrequencyRule": 5 <br/>
                "Frequency": 3 <br/>
