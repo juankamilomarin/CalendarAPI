@@ -14,7 +14,7 @@
 <h2 id="@Model.Key.ControllerName">@Model.Key.ControllerName</h2>
 @if (!String.IsNullOrEmpty(controllerDocumentation))
 {
-    <p>@controllerDocumentation</p>
+    <p>@Html.Raw(controllerDocumentation)</p>//<p>@controllerDocumentation</p>
 }
 <table class="help-page-table">
     <thead>
@@ -28,7 +28,7 @@
             <td class="api-documentation">
             @if (api.Documentation != null)
             {
-                <p>@api.Documentation</p>
+                <p>@Html.Raw(api.Documentation)</p>//<p>@api.Documentation</p>
             }
             else
             {

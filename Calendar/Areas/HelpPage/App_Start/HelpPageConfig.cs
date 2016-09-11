@@ -2,12 +2,15 @@
 // package to your project.
 ////#define Handle_PageResultOfT
 
+using Calendar.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Web;
@@ -34,16 +37,66 @@ namespace Calendar.Areas.HelpPage
         public static void Register(HttpConfiguration config)
         {
             //// Uncomment the following to use the documentation from XML documentation file.
-            //config.SetDocumentationProvider(new XmlDocumentationProvider(HttpContext.Current.Server.MapPath("~/App_Data/XmlDocument.xml")));
+            config.SetDocumentationProvider(new XmlDocumentationProvider(HttpContext.Current.Server.MapPath("~/App_Data/XmlDocument.xml")));
+
+
+            //Samples are provided only for JSON formtas. XML examples are generated automatically
+            config.Formatters.Clear();
+            config.Formatters.Add(new JsonMediaTypeFormatter());
+            config.Formatters.Add(new XmlMediaTypeFormatter());
 
             //// Uncomment the following to use "sample string" as the sample for all actions that have string as the body parameter or return type.
             //// Also, the string arrays will be used for IEnumerable<string>. The sample objects will be serialized into different media type 
             //// formats by the available formatters.
-            //config.SetSampleObjects(new Dictionary<Type, object>
-            //{
-            //    {typeof(string), "sample string"},
-            //    {typeof(IEnumerable<string>), new string[]{"sample 1", "sample 2"}}
-            //});
+            UserViewModel userExample1 = new UserViewModel { UserID = 1, Name = "Juan" };
+            UserViewModel userExample2 = new UserViewModel { UserID = 2, Name = "Laney" };
+
+            EventViewModel eventExample = new EventViewModel
+            {
+                EventID = 1,
+                UserID = 1,
+                Name = "Urgent meeting",
+                Location = "Azend office and via Skype",
+                Notes = "When need to review the project ASAP",
+                StartDate = new DateTime(2016, 10, 1, 10, 30, 0),
+                EndDate = new DateTime(2016, 10, 1, 11, 30, 0),
+                Recurrent = false
+            };
+            
+            
+            config.SetSampleObjects(new Dictionary<Type, object>
+            {
+                {typeof(UserViewModel), userExample1},
+                {typeof(IEnumerable<UserViewModel>), new UserViewModel[]{userExample1, userExample2}}
+            });
+            
+
+            //
+            var requestCreateNewUser = 
+@"{
+    ""Name"": ""Laney""
+}";
+            var responseCreateNewUser =
+@"{
+    ""UserID"": ""12""    
+}";
+
+            config.SetSampleRequest(requestCreateNewUser,
+                                    new MediaTypeHeaderValue("application/json"),
+                                    "Users",
+                                    "PostUser");
+            config.SetSampleResponse(responseCreateNewUser,
+                        new MediaTypeHeaderValue("application/json"),
+                        "Users",
+                        "PostUser");
+            config.SetSampleRequest(requestCreateNewUser,
+                                    new MediaTypeHeaderValue("text/json"),
+                                    "Users",
+                                    "PostUser");
+            config.SetSampleResponse(responseCreateNewUser,
+                        new MediaTypeHeaderValue("text/json"),
+                        "Users",
+                        "PostUser");
 
             // Extend the following to provide factories for types not handled automatically (those lacking parameterless
             // constructors) or for which you prefer to use non-default property values. Line below provides a fallback

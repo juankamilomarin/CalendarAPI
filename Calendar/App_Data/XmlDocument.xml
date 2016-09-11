@@ -1,0 +1,777 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Calendar</name>
+    </assembly>
+    <members>
+        <member name="M:Calendar.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,Calendar.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:Calendar.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:Calendar.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:Calendar.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Calendar.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:Calendar.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:Calendar.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:Calendar.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Calendar.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:Calendar.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,Calendar.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,Calendar.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:Calendar.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:Calendar.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(Calendar.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:Calendar.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:Calendar.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},Calendar.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:Calendar.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:Calendar.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleKey.#ctor(Calendar.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:Calendar.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:Calendar.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:Calendar.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,Calendar.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:Calendar.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:Calendar.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:Calendar.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:Calendar.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:Calendar.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Calendar.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:Calendar.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:Calendar.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Calendar.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.GetUsers">
+            <summary>
+            Gets the list of existing registered users
+            </summary>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.GetUser(System.Int32)">
+            <summary>
+            Gets the properties of a specific user
+            </summary>
+            <param name="UserID">ID of the user</param>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.PostUser(Calendar.Models.UserViewModel)">
+            <summary>
+            Creates a new user
+            </summary>
+            <param name="userViewModel">
+            Name of the user must be provided. If UserID is given in the request it is ignored.
+            <br/>
+            Response: a simple object with the ID of the new user
+            </param>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.GetUserEvents(System.Int32)">
+            <summary>
+            Gets the events of a given user
+            </summary>
+            <param name="userID">ID of the user</param>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.GetUserEvents(System.Int32,System.Int32)">
+            <summary>
+            Gets a specific event of a given user
+            </summary>
+            <param name="userID">ID of the user</param>
+            <param name="eventID">ID of the specific event</param>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.PostUserEvent(System.Int32,Calendar.Models.EventViewModel)">
+            <summary>
+            Creates a new event for a specific user
+            </summary>
+            <param name="userID">ID of the user</param>
+            <param name="userEventViewModel">Object with the information of the event</param>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.PutUserEvent(System.Int32,Calendar.Models.EventViewModel)">
+            <summary>
+            Updates a user event
+            </summary>
+            <param name="userID">ID of the user</param>
+            <param name="userEventViewModel">Object with the information of the event</param>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.DeleteUserEvent(System.Int32,System.Int32)">
+            <summary>
+            Deletes a specific user event
+            </summary>
+            <param name="userID">ID of the user</param>
+            <param name="eventID">ID of the specific event</param>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.EventID">
+            <summary>
+            Unique number that identifies the event.
+            This property is ignored in the creation of a new event
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.UserID">
+            <summary>
+            Unique identifier of the user
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.Name">
+            <summary>
+            Name of the event 
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.Location">
+            <summary>
+            Location of the event
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.Notes">
+            <summary>
+            Notes of the event
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.StartDate">
+            <summary>
+            Start Date of the event
+            </summary>
+            <value>2016-09-12T17:00:00</value>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.EndDate">
+            <summary>
+            End Date of the event
+            </summary>
+            <value>2016-09-12T18:00:00</value>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.Recurrent">
+            <summary>
+            Indicates if the event is recurrent (has repetitions in the future).
+            <br/><br/>
+            When an event is not recurrent FrequencyRule, Frequency, EndBy, DayOfWeek and OrdinalDayOfWeek
+            properties are ignored.
+            <br/><br/>
+            When an event is recurrent the API calculates the repetitions of such event based on a FrequencyRule.
+            It stars to itarate from StartDate until EndBy and creates a list of EventRepetition. Quartz library
+            is used to accomplished this purpose. <br/>
+            More info: <a href="http://www.quartz-scheduler.net/" target="_blank">Quartz.NET - Quartz Enterprise Scheduler.NET</a>
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.EndBy">
+            <summary>
+            This is the end date for the repetitions when the event is recurrent. 
+            The iterator to generate repetitions will go on until it exceeds this date
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.FrequencyRule">
+             <summary>
+             Indicates the frequency rule used to calculate future repetitions. It's mandatory when the event is recurrent <br /><br/>
+             <b>1 - WEEKLY</b> <br/><br/>
+             The event is repeated weekly (Frequency=1) or every certain weeks (Frenquency=n). When using this rule
+             DayOfWeek property must be specified
+             <br/>
+             Example 1: Every Wednesday <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 1 <br/>
+               "Frequency": 1 <br/>
+               "DaysOfWeek":3 <br/>
+            <br/>
+             Example 2: Every other Tuesday <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 1 <br/>
+               "Frequency": 2 <br/>
+               "DaysOfWeek":2 <br/>
+            ---------------------------------
+            <br/><br/>
+             <b>2 - MONTHLY EVERY DAY OF THE MONTH</b> <br/><br/>
+             The event is repeated every day of a month, every month (Frequency=1) or 
+             every certain months (Frenquency=n). The day and day time are taken from StarDate property
+             <br/><br/>
+             Example 1: Every 5th of every month at 1 pm <br/>
+               "StarDate": "2016-09-05T13:00:00" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 2 <br/>
+               "Frequency": 1 <br/>
+            <br/>
+             Example 2: Every 15th of the month, every 3 months <br/>
+               "StarDate": "2016-09-15" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 1 <br/>
+               "Frequency": 3 <br></br>
+            ---------------------------------
+            <br/><br/>
+             <b>3 - MONTHLY EVERY DAY OF THE WEEK </b> <br />  
+             The event is repeated every specific day of the week, every month (Frequency=1) or 
+             every certain months (Frenquency=n). When using this rule DayOfWeek and OrdinalDayOfTheWeek properties
+             must be specified.
+             <br/><br/>
+             Example 1: The first Tuesday of every month<br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 3 <br/>
+               "Frequency": 1 <br/>
+               "DayOfWeek": 2  <br/>
+               "OrdinalDayOfTheWeek": 1 <br/>
+            <br/>
+             Example 2: The last Saturday of every month <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 3 <br/>
+               "Frequency": 1 <br/>
+               "DayOfWeek": 6  <br/>
+               "OrdinalDayOfTheWeek": 6 <br/>
+            <br/>
+             Example 3: The 2nd Friday of the month, every 3 months <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 3 <br/>
+               "Frequency": 3 <br/>
+               "DayOfWeek": 5  <br/>
+               "OrdinalDayOfTheWeek": 2 <br/>
+            ---------------------------------
+            <br/><br/>
+             <b>4 - ANUALLY EVERY DAY OF THE MONTH</b> <br/><br/>
+             The event is repeated every day of a month, every year (Frequency=1) or 
+             every certain years (Frenquency=n). The month, day and day time are taken from StarDate property
+             <br/><br/>
+             Example 1: The 23rd of February every year<br/>
+               "StarDate": "2016-02-23" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 4 <br/>
+               "Frequency": 1 <br/>
+            <br/>
+             Example 2: Every 15th of April at 9 am, every 2 years <br/>
+               "StarDate": "2016-04-15T09:00:00" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 1 <br/>
+               "Frequency": 2 <br></br>
+            ---------------------------------
+            <br/><br/>
+             <b>5 - ANUALLY EVERY DAY OF THE WEEK </b> <br />  
+             The event is repeated every specific day of the week, every year (Frequency=1) or 
+             every certain years (Frenquency=n). When using this rule DayOfWeek and OrdinalDayOfTheWeek properties
+             must be specified.
+             <br/><br/>
+             Example 1: The third Tuesday in February every year<br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 5 <br/>
+               "Frequency": 1 <br/>
+               "DayOfWeek": 2  <br/>
+               "OrdinalDayOfTheWeek": 3 <br/>
+            <br/>
+             Example 2: The last Thurday in November, every 3 years <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 5 <br/>
+               "Frequency": 3 <br/>
+               "DayOfWeek": 4  <br/>
+               "OrdinalDayOfTheWeek": 6 <br/>
+            <br/>
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.Frequency">
+            <summary>
+            Frequency in which repetitions will be generated. If it's not specified it assumes 1 by default <br/> <br/> 
+            Exmaple 1: if the FrequencyRule=1 (WEEKLY) and Frequency=2 means that the event is 
+            repeated every 2 weeks<br/><br/>
+            Exmaple 2: if the FrequencyRule=3 (MONTHLY EVERY DAY OF THE MONTH) and Frequency=6 
+            means that the event is repeated every 6 months<br/><br/>
+            Exmaple 3: if the FrequencyRule=4 (ANUALLY EVERY DAY OF THE MONTH) and Frequency=3 
+            means that the event is repeated every 3 years<br/><br/>
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.DayOfWeek">
+            <summary>
+            Indicates the day of the week when the frequency rule is WEEKLY, MONTHLY EVERY DAY OF THE WEEK
+            or ANUALLY EVERY DAY OF THE WEEK. Values:<br/><br/>
+            0 = Sunday <br/>
+            1 = Monday <br/> 
+            2 = Tuesday <br/>
+            3 = Wednesday <br/>
+            4 = Thursday <br/>
+            5 = Friday <br/>
+            6 = Saturday
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.OrdinalDayOfTheWeek">
+             <summary>
+             Indicates ordinal day of week within a month when the frequency rule is MONTHLY EVERY DAY OF THE WEEK
+             or ANUALLY EVERY DAY OF THE WEEK. Values:<br/><br/>
+             1 = First day of week<br/>
+             2 = Second day of week<br/> 
+             3 = Third day of week <br/>
+             4 = Fourth day of week <br/>
+             5 = Fifth day of week<br/>
+             6 = Last day of week<br/><br/>
+             Example 1: fist Tuesday of the month <br/>
+                 "DayOfWeek":2, <br/>
+                 "OrdinalDayOfTheWeek":1 <br/>
+             <br/>    
+            Example 2: last Monday of the month <br/>
+                 "DayOfWeek":1, <br/>
+                 "OrdinalDayOfTheWeek":6 <br/>
+             <br/>
+            Example 3: third Friday of the month <br/>
+                 "DayOfWeek":5, <br/>
+                 "OrdinalDayOfTheWeek":3 <br/>
+             <br/>
+             </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.CronExpression">
+            <summary>
+            Cron expression used for calculating event repetitions. This expression is calculated 
+            automatically in the creation event.This format is supported by Quartz library and may be 
+            useful for rendering events in a web calendar<br/><br/>
+            More info: <br/>
+            Quartz documentation: <a href="http://www.quartz-scheduler.net/" target="_blank">Quartz.NET - Quartz Enterprise Scheduler.NET</a> <br/>
+            Cron expression maker: <a href="http://www.cronmaker.com/" target="_blank">Cron Maker</a>
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.Repetitions">
+            <summary>
+            A list of event repetitions which consists of a duple StartDate and EndDate which are created based on the duration time of the event (EndDate minus StartDate). <br/><br/>
+            For example, if an event is recurrent every week, 
+            StarDate="2016-09-05T13:00:00" and EndDate="2016-09-05T15:00:00" 
+            the event repetitions will be {StarDate="2016-09-12T13:00:00", EndDate="2016-09-12T15:00:00"},
+            {StarDate="2016-09-19T13:00:00", EndDate="2016-09-19T15:00:00"}, etc... <br/><br/>
+            Look how day time (hour, minutes, seconds) is kept in each repetition.
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.UserViewModel.UserID">
+            <summary>
+            Unique number that identifies the user </summary>
+            <value>6</value>
+        </member>
+        <member name="P:Calendar.Models.UserViewModel.Name">
+            <summary>
+            Name of the user </summary>
+            <value></value>
+        </member>
+    </members>
+</doc>

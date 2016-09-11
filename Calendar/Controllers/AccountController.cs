@@ -16,11 +16,13 @@ using Microsoft.Owin.Security.OAuth;
 using Calendar.Models;
 using Calendar.Providers;
 using Calendar.Results;
+using System.Web.Http.Description;
 
 namespace Calendar.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
