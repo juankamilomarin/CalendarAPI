@@ -34,6 +34,7 @@ URI: /api/users/{UserID}/events<br/>
 BODY:<br/>
 ```javascript
 {
+  "UserID": 3,
   "Name": "Test post 2",
   "Location": "Via Skype",
   "Notes": "Some notes",
