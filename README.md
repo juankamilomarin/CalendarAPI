@@ -8,9 +8,7 @@ First coding challenge for Azend application
 ## Installation
 
 1. Download the project and open it on Visual Studio 2015
-2. Connect to the data base
-DataBase connection string: Server=tcp:juankamilomarin.database.windows.net,1433;Initial Catalog=EventsDB;Persist Security Info=False;User ID=juankamilomarin;Password=juanka12345.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
-3. Test!
+2. Test!
 
 ## Tests
 
@@ -58,7 +56,7 @@ URI: /api/users/{UserID}/events<br/>
 Action: GET<br/>
 URI: /api/users/{UserID}/events/{EventID}<br/>
 <br/>
-<b>You may find more examples exporting this postman collection:</b>
+<b>You may find more examples exporting this postman collection (<a href="https://www.getpostman.com/" target="_blank">Get postman</a>):</b>
 <br/>
 https://www.getpostman.com/collections/32cbe58c505c14ff2996
 
