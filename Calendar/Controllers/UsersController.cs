@@ -156,10 +156,12 @@ namespace Calendar.Controllers
         /// Updates a user event
         /// </summary>
         /// <param name="userID">ID of the user</param>
+        /// <param name="eventID">ID of the specific event to update. The API ignores the EventID property
+        /// specified in the UverViewModel</param>
         /// <param name="userEventViewModel">Object with the information of the event</param>
         [Route("api/users/{userID}/events/{eventID}")]
         [HttpPut]
-        public IHttpActionResult PutUserEvent(int userID, [FromBody]EventViewModel userEventViewModel)
+        public IHttpActionResult PutUserEvent(int userID, int eventID, [FromBody]EventViewModel userEventViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -172,7 +174,7 @@ namespace Calendar.Controllers
                 return BadRequest(recurrenceValidationMessage);
             }
 
-            Event userEvent = DbContext.Events.FirstOrDefault(e => e.UserID == userID && e.EventID == userEventViewModel.EventID);
+            Event userEvent = DbContext.Events.FirstOrDefault(e => e.UserID == userID && e.EventID == eventID);
             if (userEvent == null) return NotFound();
 
             userEvent.Name = userEventViewModel.Name;
