@@ -36,7 +36,6 @@ namespace Calendar.Models
         /// <summary>
         /// Unique identifier of the user
         /// </summary>
-        [Required]
         public int UserID { get; set; }
 
         /// <summary>

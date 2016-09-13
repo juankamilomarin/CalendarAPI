@@ -66,7 +66,6 @@ namespace Calendar.Controllers
         [HttpPost, ActionName("PostUser")]
         public IHttpActionResult PostUser([FromBody] UserViewModel userViewModel)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
