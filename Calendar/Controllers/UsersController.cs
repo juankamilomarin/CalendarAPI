@@ -156,7 +156,7 @@ namespace Calendar.Controllers
         /// Updates a user event
         /// </summary>
         /// <param name="userID">ID of the user</param>
-        /// <param name="eventID">ID of the specific event to update. The API ignores the EventID property
+        /// <param name="eventID">ID of the specific event to update. The API ignores the EventID property</param>
         /// specified in the UverViewModel</param>
         /// <param name="userEventViewModel">Object with the information of the event</param>
         [Route("api/users/{userID}/events/{eventID}")]

@@ -522,13 +522,7 @@
             <param name="userID">ID of the user</param>
             <param name="userEventViewModel">Object with the information of the event</param>
         </member>
-        <member name="M:Calendar.Controllers.UsersController.PutUserEvent(System.Int32,Calendar.Models.EventViewModel)">
-            <summary>
-            Updates a user event
-            </summary>
-            <param name="userID">ID of the user</param>
-            <param name="userEventViewModel">Object with the information of the event</param>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:Calendar.Controllers.UsersController.PutUserEvent(System.Int32,System.Int32,Calendar.Models.EventViewModel)" -->
         <member name="M:Calendar.Controllers.UsersController.DeleteUserEvent(System.Int32,System.Int32)">
             <summary>
             Deletes a specific user event
