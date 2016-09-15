@@ -10,6 +10,9 @@ First coding challenge for Azend application
 1. Download the project and open it on Visual Studio 2015
 2. Test!
 
+
+Note: if you have issues launching the IIS change LocalIIS for IISExpress in the Web option within the Calendar Properties file.
+
 ## Tests
 
 <b>How to get the registered users:</b>
