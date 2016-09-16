@@ -214,6 +214,21 @@ namespace Calendar.Controllers
             return Ok();
         }
 
+        [Route("api/users/{userID}")]
+        [HttpDelete]
+        [Authorize]
+        public IHttpActionResult DeleteUser(int userID)
+        {
+            //Deteles the events of that user
+            List<Event> userEvents = DbContext.Events.Where(e => e.UserID == userID).ToList();
+            userEvents.ForEach(e => e.State = false);
+
+            User user = DbContext.Users.FirstOrDefault(u => u.UserID == userID);
+            DbContext.Users.Remove(user);
+            DbContext.SaveChanges();
+            return Ok();
+        }
+
         //TODO: migrate this to model state valiations
         private string ValidateBindingProperties(EventBindingModel userEventViewModel)
         {
