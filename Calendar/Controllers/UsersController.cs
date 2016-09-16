@@ -9,19 +9,19 @@ namespace Calendar.Controllers
 {
     public class UsersController : ApiController
     {
-        private CalendarContext _calendarContext = null;
+        private CalendarContext _calendarDBContext = null;
 
         public CalendarContext DbContext
         {
             get
             {
-                if (_calendarContext == null)
+                if (_calendarDBContext == null)
                 {
-                    _calendarContext = new CalendarContext();
+                    _calendarDBContext = new CalendarContext();
                 }
 
-                _calendarContext.Configuration.ProxyCreationEnabled = false;
-                return _calendarContext;
+                _calendarDBContext.Configuration.ProxyCreationEnabled = false;
+                return _calendarDBContext;
             }
         }
 
@@ -33,10 +33,13 @@ namespace Calendar.Controllers
         [ResponseType(typeof(IEnumerable<UserViewModel>))]
         public IHttpActionResult GetUsers()
         {
-            //TODO: get all users
-            IEnumerable<UserViewModel> users = DbContext.Users.ToList().Select(u => new UserViewModel(u));
-            if (users.Any()) return Ok(users);
-            return NotFound();
+            IEnumerable<UserViewModel> usersVM = DbContext.Users.ToList().
+                Select(user => new UserViewModel
+                {
+                    UserID = user.UserID,
+                    Name = user.Name
+                });
+            return Ok(usersVM);
         }
 
 
@@ -50,30 +53,32 @@ namespace Calendar.Controllers
         public IHttpActionResult GetUser(int userID)
         {
             User user = DbContext.Users.Find(userID);
-            if (user != null) return Ok(new UserViewModel(user));
+            if (user != null)
+                return Ok(new UserViewModel
+                {
+                    UserID = user.UserID,
+                    Name = user.Name
+                });
             return NotFound();
         }
 
         /// <summary>
         /// Creates a new user
         /// </summary>
-        /// <param name="userViewModel">
-        /// Name of the user must be provided. If UserID is given in the request it is ignored.
-        /// <br/>
-        /// Response: a simple object with the ID of the new user
-        /// </param>
+        /// <param name="userBindingModel"></param>
         [Route("api/users")]
         [HttpPost, ActionName("PostUser")]
-        public IHttpActionResult PostUser([FromBody] UserViewModel userViewModel)
+        [ResponseType(typeof(UserViewModel))]
+        public IHttpActionResult PostUser([FromBody] UserBindingModel userBindingModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            User user = new User { Name = userViewModel.Name };
+            User user = new User { Name = userBindingModel.Name };
             DbContext.Users.Add(user);
             DbContext.SaveChanges();
-            return Ok(new { UserID = user.UserID });
+            return Ok(new UserViewModel { UserID = user.UserID, Name = user.Name });
         }
 
         /// <summary>
@@ -86,8 +91,7 @@ namespace Calendar.Controllers
         public IHttpActionResult GetUserEvents(int userID)
         {
             IEnumerable<EventViewModel> events = DbContext.Events.Where(e => e.UserID == userID).ToList().Select(e => new EventViewModel(e));
-            if (events.Any()) return Ok(events);
-            return NotFound();
+            return Ok(events);
         }
 
         /// <summary>
@@ -110,17 +114,17 @@ namespace Calendar.Controllers
         /// Creates a new event for a specific user
         /// </summary>
         /// <param name="userID">ID of the user</param>
-        /// <param name="userEventViewModel">Object with the information of the event</param>
+        /// <param name="eventBindingModel">Object with the information of the event</param>
         [Route("api/users/{userID}/events")]
         [HttpPost, ActionName("PostUserEvent")]
-        public IHttpActionResult PostUserEvent(int userID, [FromBody]EventViewModel userEventViewModel)
+        public IHttpActionResult PostUserEvent(int userID, [FromBody]EventBindingModel eventBindingModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            string recurrenceValidationMessage = ValidateRecurrenceProperties(userEventViewModel);
+            string recurrenceValidationMessage = ValidateBindingProperties(eventBindingModel);
             if (recurrenceValidationMessage != null)
             {
                 return BadRequest(recurrenceValidationMessage);
@@ -129,18 +133,18 @@ namespace Calendar.Controllers
             Event userEvent = new Event
             {
                 UserID = userID,
-                Name = userEventViewModel.Name,
-                Location = userEventViewModel.Location,
-                Notes = userEventViewModel.Notes,
-                StartDate = userEventViewModel.StartDate,
-                EndDate = userEventViewModel.EndDate,
-                Recurrence = userEventViewModel.Recurrent,
-                FrequencyRule = userEventViewModel.FrequencyRule,
-                Frequency = userEventViewModel.Frequency,
-                EndBy = userEventViewModel.EndBy,
-                DaysOfWeek = userEventViewModel.DayOfWeek.ToString(),
-                OrdinalDayOfTheWeek = userEventViewModel.OrdinalDayOfTheWeek,
-                CronExpression = userEventViewModel.GetCronExpression(),
+                Name = eventBindingModel.Name,
+                Location = eventBindingModel.Location,
+                Notes = eventBindingModel.Notes,
+                StartDate = eventBindingModel.StartDate,
+                EndDate = eventBindingModel.EndDate,
+                Recurrence = eventBindingModel.Recurrent,
+                FrequencyRule = eventBindingModel.FrequencyRule,
+                Frequency = eventBindingModel.Frequency,
+                EndBy = eventBindingModel.EndBy,
+                DaysOfWeek = eventBindingModel.DayOfWeek.ToString(),
+                OrdinalDayOfTheWeek = eventBindingModel.OrdinalDayOfTheWeek,
+                CronExpression = eventBindingModel.GetCronExpression(),
                 State = true
 
             };
@@ -159,15 +163,15 @@ namespace Calendar.Controllers
         /// specified in the UverViewModel</param>
         /// <param name="userEventViewModel">Object with the information of the event</param>
         [Route("api/users/{userID}/events/{eventID}")]
-        [HttpPut]
-        public IHttpActionResult PutUserEvent(int userID, int eventID, [FromBody]EventViewModel userEventViewModel)
+        [HttpPut, ActionName("PuttUserEvent")]
+        public IHttpActionResult PutUserEvent(int userID, int eventID, [FromBody]EventBindingModel userEventViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            string recurrenceValidationMessage = ValidateRecurrenceProperties(userEventViewModel);
+            string recurrenceValidationMessage = ValidateBindingProperties(userEventViewModel);
             if (recurrenceValidationMessage != null)
             {
                 return BadRequest(recurrenceValidationMessage);
@@ -183,7 +187,7 @@ namespace Calendar.Controllers
             userEvent.EndDate = userEventViewModel.EndDate;
             userEvent.Recurrence = userEventViewModel.Recurrent;
             userEvent.FrequencyRule = userEventViewModel.FrequencyRule;
-            userEvent.Frequency = userEventViewModel.Frequency??1;
+            userEvent.Frequency = userEventViewModel.Frequency ?? 1;
             userEvent.DaysOfWeek = userEventViewModel.DayOfWeek.ToString(); //It's store as string so in the future one could extend to use multiple days of the week
             userEvent.OrdinalDayOfTheWeek = userEventViewModel.OrdinalDayOfTheWeek;
             userEvent.CronExpression = userEventViewModel.GetCronExpression();
@@ -210,8 +214,17 @@ namespace Calendar.Controllers
             return Ok();
         }
 
-        private string ValidateRecurrenceProperties(EventViewModel userEventViewModel)
+        //TODO: migrate this to model state valiations
+        private string ValidateBindingProperties(EventBindingModel userEventViewModel)
         {
+            if(userEventViewModel.StartDate > userEventViewModel.EndDate)
+            {
+                return "StartDate is bigger then EndDate";
+            }
+            if(userEventViewModel.EndBy < userEventViewModel.EndDate)
+            {
+                return "EndDate is bigger than EndBy";
+            }
             if (userEventViewModel.Recurrent)
             {
                 if (userEventViewModel.FrequencyRule == null) return "FrequencyRule is not specified";

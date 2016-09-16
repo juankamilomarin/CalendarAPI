@@ -8,23 +8,8 @@ using System.Text;
 namespace Calendar.Models
 {
 
-    public class EventViewModel
+    public class EventViewModel: EventBaseModel
     {
-
-        //public const int DAYLY = 0;
-        public const int WEEKLY = 1;
-        public const int MONTHLY_EVERY_DAY_OF_THE_MONTH = 2;
-        public const int MONTHLY_EVERY_DAY_OF_THE_WEEK = 3;
-        public const int ANUALLY_EVERY_DAY_OF_THE_MONTH = 4;
-        public const int ANUALLY_EVERY_DAY_OF_THE_WEEK = 5;
-
-        private const int WEEK_DAYS = 7;
-        private const int YEAR_MONTHS = 12;
-
-        private const string NO_SPECIFIC_VALUE = "?";
-        private const string PATH_SEPARATOR = "/";
-        private const string ASTERISK = "*";
-        private const string BLANK = " ";
 
 
         /// <summary>
@@ -38,50 +23,6 @@ namespace Calendar.Models
         /// </summary>
         public int UserID { get; set; }
 
-        /// <summary>
-        /// Name of the event 
-        /// </summary>
-        [Required]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Location of the event
-        /// </summary>
-        [Required]
-        public string Location { get; set; }
-
-        /// <summary>
-        /// Notes of the event
-        /// </summary>
-        public string Notes { get; set; }
-
-        /// <summary>
-        /// Start Date of the event
-        /// </summary>
-        /// <value>2016-09-12T17:00:00</value>
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        /// <summary>
-        /// End Date of the event
-        /// </summary>
-        /// <value>2016-09-12T18:00:00</value>
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        /// <summary>
-        /// Indicates if the event is recurrent (has repetitions in the future).
-        /// <br/><br/>
-        /// When an event is not recurrent FrequencyRule, Frequency, EndBy, DayOfWeek and OrdinalDayOfWeek
-        /// properties are ignored.
-        /// <br/><br/>
-        /// When an event is recurrent the API calculates the repetitions of such event based on a FrequencyRule.
-        /// It stars to itarate from StartDate until EndBy and creates a list of EventRepetition. Quartz library
-        /// is used to accomplished this purpose. <br/>
-        /// More info: <a href="http://www.quartz-scheduler.net/" target="_blank">Quartz.NET - Quartz Enterprise Scheduler.NET</a>
-        /// </summary>
-        [Required]
-        public bool Recurrent { get; set; }
 
         /// <summary>
         /// This is the end date for the repetitions when the event is recurrent. 
@@ -99,13 +40,13 @@ namespace Calendar.Models
         ///   "Recurrent": true <br/>
         ///   "FrequencyRule": 1 <br/>
         ///   "Frequency": 1 <br/>
-        ///   "DaysOfWeek":3 <br/>
+        ///   "DayOfWeek":3 <br/>
         ///<br/>
         /// Example 2: Every other Tuesday <br/>
         ///   "Recurrent": true <br/>
         ///   "FrequencyRule": 1 <br/>
         ///   "Frequency": 2 <br/>
-        ///   "DaysOfWeek":2 <br/>
+        ///   "DayOfWeek":2 <br/>
         ///---------------------------------
         ///<br/><br/>
         /// <b>2 - MONTHLY EVERY DAY OF THE MONTH</b> <br/><br/>
@@ -266,14 +207,10 @@ namespace Calendar.Models
         /// </summary>
         public List<EventRepetition> Repetitions { get; set; }
 
-        public EventViewModel()
-        {
-        }
-
         public EventViewModel(Event ev)
         {
-            EventID = ev.EventID;
             UserID = ev.UserID;
+            EventID = ev.EventID;
             Name = ev.Name;
             Location = ev.Location;
             Notes = ev.Notes;
@@ -283,6 +220,7 @@ namespace Calendar.Models
 
             if (Recurrent)
             {
+                EndBy = ev.EndBy;
                 FrequencyRule = ev.FrequencyRule;
                 Frequency = ev.Frequency ?? 1;
                 try
@@ -294,125 +232,13 @@ namespace Calendar.Models
                     DayOfWeek = null;
                 }
                 OrdinalDayOfTheWeek = ev.OrdinalDayOfTheWeek;
-
-                EndBy = ev.EndBy;
                 CronExpression = ev.CronExpression;
-
                 Repetitions = GetRepetitions(this);
 
             }
         }
 
-        public string GetCronExpression()
-        {
-            //Test http://www.cronmaker.com/
-            if (Recurrent)
-            {
-                var cronExpression = new StringBuilder();
-
-                //Seconds
-                cronExpression.Append("0");
-                cronExpression.Append(BLANK);
-
-                //Minutes
-                cronExpression.Append(StartDate.Minute);
-                cronExpression.Append(BLANK);
-
-                //Houres
-                cronExpression.Append(StartDate.Hour);
-                cronExpression.Append(BLANK);
-
-                double frequency = Frequency ?? 1;
-                switch (FrequencyRule)
-                {
-                    /*
-                    case DAYLY:
-                        cronJob.Append("1" + PATH_SEPARATOR + Frequency);
-                        cronJob.Append(BLANK);
-                        cronJob.Append("* ? *");
-                        break;
-                    */
-                    case WEEKLY:
-                        //Frequency in weekly events is handle in the presententation (when repetitions of events are created)
-                        cronExpression.Append("? *");
-                        cronExpression.Append(BLANK);
-                        //TODO: this has to be changed in order to support multiple days of week
-                        cronExpression.Append(Enum.GetName(typeof(DayOfWeek), DayOfWeek).Substring(0, 3).ToUpper());
-                        cronExpression.Append(BLANK);
-                        cronExpression.Append(ASTERISK);
-
-                        break;
-
-                    case MONTHLY_EVERY_DAY_OF_THE_MONTH:
-                        cronExpression.Append(StartDate.Day);
-                        cronExpression.Append(BLANK);
-                        cronExpression.Append("1" + PATH_SEPARATOR + frequency);
-                        cronExpression.Append(BLANK);
-                        cronExpression.Append("? *");
-
-                        break;
-                    case MONTHLY_EVERY_DAY_OF_THE_WEEK:
-                        cronExpression.Append(NO_SPECIFIC_VALUE);
-                        cronExpression.Append(BLANK);
-                        cronExpression.Append("1" + PATH_SEPARATOR + frequency);
-                        cronExpression.Append(BLANK);
-                        //TODO: this has to be changed in order to support multiple days of week
-                        cronExpression.Append(Enum.GetName(typeof(DayOfWeek), DayOfWeek).Substring(0, 3).ToUpper());
-                        if (OrdinalDayOfTheWeek == 6)
-                        {
-                            cronExpression.Append("L");
-                        }
-                        else
-                        {
-                            cronExpression.Append("#");
-                            cronExpression.Append(OrdinalDayOfTheWeek);
-                        }
-
-                        cronExpression.Append(BLANK);
-                        cronExpression.Append(ASTERISK);
-
-                        break;
-
-                    case ANUALLY_EVERY_DAY_OF_THE_MONTH:
-                        cronExpression.Append(StartDate.Day);
-                        cronExpression.Append(BLANK);
-                        cronExpression.Append(StartDate.Month);
-                        cronExpression.Append(BLANK + NO_SPECIFIC_VALUE + BLANK);
-                        cronExpression.Append(ASTERISK + PATH_SEPARATOR + frequency);
-
-                        break;
-
-                    case ANUALLY_EVERY_DAY_OF_THE_WEEK:
-                        cronExpression.Append(NO_SPECIFIC_VALUE);
-                        cronExpression.Append(BLANK);
-                        cronExpression.Append(StartDate.Month);
-                        cronExpression.Append(BLANK);
-
-                        //TODO: this has to be changed in order to support multiple days of week
-                        cronExpression.Append(Enum.GetName(typeof(DayOfWeek), DayOfWeek).Substring(0, 3).ToUpper());
-                        if (OrdinalDayOfTheWeek == 6)
-                        {
-                            cronExpression.Append("L");
-                        }
-                        else
-                        {
-                            cronExpression.Append("#");
-                            cronExpression.Append(OrdinalDayOfTheWeek);
-                        }
-
-                        cronExpression.Append(BLANK);
-                        cronExpression.Append(ASTERISK + PATH_SEPARATOR + frequency);
-
-                        break;
-                }
-
-                return cronExpression.ToString();
-            }
-
-            return "";
-        }
-
-        public List<EventRepetition> GetRepetitions(EventViewModel eventViewModel)
+        private List<EventRepetition> GetRepetitions(EventViewModel eventViewModel)
         {
             //Quartz setup
             var tempTriggerName = "TEMP:" + new Random().NextDouble();
@@ -430,7 +256,7 @@ namespace Calendar.Models
             var eventDuration = eventViewModel.EndDate.TimeOfDay -
                                 eventViewModel.StartDate.TimeOfDay;
 
-            //Special case for Weekly with certain frequency. 
+            //Special case for Weekly with certain frequency (this case is not supported by Quartz)
             //Example 1: every other Tuesday
             //Example 2, every 3 weeks, on Wednesdays
             if (eventViewModel.FrequencyRule == WEEKLY && eventViewModel.Frequency > 0)

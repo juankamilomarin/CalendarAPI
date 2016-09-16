@@ -257,9 +257,12 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EventBaseModel.cs" />
+    <Compile Include="Models\EventBindingModel.cs" />
     <Compile Include="Models\EventRepetition.cs" />
-    <Compile Include="Models\EventViewModel.cs" />
+    <Compile Include="Models\EventViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\UserBindingModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />

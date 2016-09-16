@@ -3,6 +3,7 @@
 ////#define Handle_PageResultOfT
 
 using Calendar.Models;
+using Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -50,8 +51,9 @@ namespace Calendar.Areas.HelpPage
             //// formats by the available formatters.
             UserViewModel userExample1 = new UserViewModel { UserID = 1, Name = "Juan" };
             UserViewModel userExample2 = new UserViewModel { UserID = 2, Name = "Laney" };
+            UserBindingModel userBindingExample1 = new UserBindingModel { Name = "Juan"};
 
-            EventViewModel eventExample1 = new EventViewModel
+            Event userEventExample1 = new Event
             {
                 EventID = 2,
                 UserID = 1,
@@ -60,9 +62,13 @@ namespace Calendar.Areas.HelpPage
                 Notes = "When need to review the project ASAP",
                 StartDate = new DateTime(2016, 10, 1, 10, 30, 0),
                 EndDate = new DateTime(2016, 10, 1, 11, 30, 0),
-                Recurrent = false
+                Recurrence = false
             };
-            EventViewModel eventExample2 = new EventViewModel
+
+            EventViewModel eventExample1 = new EventViewModel(userEventExample1);
+
+
+            Event userEventExample2 = new Event
             {
                 EventID = 3,
                 UserID = 1,
@@ -71,92 +77,50 @@ namespace Calendar.Areas.HelpPage
                 Notes = "This is important before starting the project",
                 StartDate = new DateTime(2016, 12, 1, 13, 30, 0),
                 EndDate = new DateTime(2016, 12, 1, 15, 30, 0),
-                Recurrent = true,
-                EndBy= new DateTime(2017, 12, 1, 13, 30, 0),
+                Recurrence = true,
+                EndBy = new DateTime(2017, 12, 1, 13, 30, 0),
                 FrequencyRule = 4,
-                Frequency= 5,
-                DayOfWeek= null,
-                OrdinalDayOfTheWeek= null,
-                CronExpression = "0 0 0 12 */5 ? *",
-                Repetitions = new List<EventRepetition> {
-                    new EventRepetition{
-                        StartDate= new DateTime(2017, 5, 1, 13, 30, 0),
-                        EndDate = new DateTime(2017, 5, 1, 15, 30, 0),
-                    },
-                    new EventRepetition
-                    {
-                        StartDate = new DateTime(2017, 10, 1, 13, 30, 0),
-                        EndDate = new DateTime(2017, 10, 1, 15, 30, 0),
-                    }
-                }
+                Frequency = 5,
+                DaysOfWeek = null,
+                OrdinalDayOfTheWeek = null,
+                CronExpression = "0 0 0 12 */5 ? *"
+            };
+
+            EventViewModel eventExample2 = new EventViewModel(userEventExample2);
+
+            EventBindingModel eventBindingModelExample1 = new EventBindingModel
+            {
+                Name = "Review of the project",
+                Location = "Via Skype",
+                Notes = "Everyone will be present. Be on time, please",
+                StartDate = new DateTime(2016, 9, 12, 17, 0, 0),
+                EndDate = new DateTime(2016, 9, 12, 18, 0, 0),
+                Recurrent = true,
+                EndBy = new DateTime(2016, 10, 12, 18, 0, 0),
+                FrequencyRule = 1,
+                Frequency = 2,
+                DayOfWeek = 3
             };
 
             config.SetSampleObjects(new Dictionary<Type, object>
             {
                 {typeof(UserViewModel), userExample1},
                 {typeof(IEnumerable<UserViewModel>), new UserViewModel[]{userExample1, userExample2}},
+                {typeof(UserBindingModel), userBindingExample1 },
                 {typeof(EventViewModel), eventExample1},
                 {typeof(IEnumerable<EventViewModel>), new EventViewModel[]{ eventExample1, eventExample2}},
+                {typeof(EventBindingModel), eventBindingModelExample1 }
             });
             
-
-            var requestCreateNewUser = 
-@"{
-    ""Name"": ""Laney""
-}";
-            var responseCreateNewUser =
-@"{
-    ""UserID"": ""12""    
-}";
-
-            config.SetSampleRequest(requestCreateNewUser,
-                                    new MediaTypeHeaderValue("application/json"),
-                                    "Users",
-                                    "PostUser");
-            config.SetSampleResponse(responseCreateNewUser,
-                        new MediaTypeHeaderValue("application/json"),
-                        "Users",
-                        "PostUser");
-            config.SetSampleRequest(requestCreateNewUser,
-                                    new MediaTypeHeaderValue("text/json"),
-                                    "Users",
-                                    "PostUser");
-            config.SetSampleResponse(responseCreateNewUser,
-                        new MediaTypeHeaderValue("text/json"),
-                        "Users",
-                        "PostUser");
-
-
-            var requestCreateNewUserEvent =
-@"{
-    ""Name"": ""Review of the project"",
-    ""Location"": ""Via Skype"",
-    ""Notes"": ""Everyone will be present. Be on time, please"",
-    ""StartDate"": ""2016 -09-12T17:00:00"",
-    ""EndDate"": ""2016 -09-12T18:00:00"",
-    ""Recurrent"": true,
-    ""EndBy"": ""2016 -10-12T18:00:00"",
-    ""FrequencyRule"": 1,
-    ""Frequency"": 2,
-    ""DayOfWeek"": 3
-}";
             var responseCreateNewUserEvent =
 @"{
     ""EventID"": 5
 }";
 
-            config.SetSampleRequest(requestCreateNewUserEvent,
-                                    new MediaTypeHeaderValue("application/json"),
-                                    "Users",
-                                    "PostUserEvent");
             config.SetSampleResponse(responseCreateNewUserEvent,
                         new MediaTypeHeaderValue("application/json"),
                         "Users",
                         "PostUserEvent");
-            config.SetSampleRequest(requestCreateNewUserEvent,
-                                    new MediaTypeHeaderValue("text/json"),
-                                    "Users",
-                                    "PostUserEvent");
             config.SetSampleResponse(responseCreateNewUserEvent,
                         new MediaTypeHeaderValue("text/json"),
                         "Users",

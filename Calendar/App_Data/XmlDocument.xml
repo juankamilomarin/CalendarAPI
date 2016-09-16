@@ -492,15 +492,11 @@
             </summary>
             <param name="UserID">ID of the user</param>
         </member>
-        <member name="M:Calendar.Controllers.UsersController.PostUser(Calendar.Models.UserViewModel)">
+        <member name="M:Calendar.Controllers.UsersController.PostUser(Calendar.Models.UserBindingModel)">
             <summary>
             Creates a new user
             </summary>
-            <param name="userViewModel">
-            Name of the user must be provided. If UserID is given in the request it is ignored.
-            <br/>
-            Response: a simple object with the ID of the new user
-            </param>
+            <param name="userBindingModel"></param>
         </member>
         <member name="M:Calendar.Controllers.UsersController.GetUserEvents(System.Int32)">
             <summary>
@@ -515,14 +511,14 @@
             <param name="userID">ID of the user</param>
             <param name="eventID">ID of the specific event</param>
         </member>
-        <member name="M:Calendar.Controllers.UsersController.PostUserEvent(System.Int32,Calendar.Models.EventViewModel)">
+        <member name="M:Calendar.Controllers.UsersController.PostUserEvent(System.Int32,Calendar.Models.EventBindingModel)">
             <summary>
             Creates a new event for a specific user
             </summary>
             <param name="userID">ID of the user</param>
-            <param name="userEventViewModel">Object with the information of the event</param>
+            <param name="eventBindingModel">Object with the information of the event</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Calendar.Controllers.UsersController.PutUserEvent(System.Int32,System.Int32,Calendar.Models.EventViewModel)" -->
+        <!-- Badly formed XML comment ignored for member "M:Calendar.Controllers.UsersController.PutUserEvent(System.Int32,System.Int32,Calendar.Models.EventBindingModel)" -->
         <member name="M:Calendar.Controllers.UsersController.DeleteUserEvent(System.Int32,System.Int32)">
             <summary>
             Deletes a specific user event
@@ -530,45 +526,34 @@
             <param name="userID">ID of the user</param>
             <param name="eventID">ID of the specific event</param>
         </member>
-        <member name="P:Calendar.Models.EventViewModel.EventID">
-            <summary>
-            Unique number that identifies the event.
-            This property is ignored in the creation of a new event
-            </summary>
-        </member>
-        <member name="P:Calendar.Models.EventViewModel.UserID">
-            <summary>
-            Unique identifier of the user
-            </summary>
-        </member>
-        <member name="P:Calendar.Models.EventViewModel.Name">
+        <member name="P:Calendar.Models.EventBaseModel.Name">
             <summary>
             Name of the event 
             </summary>
         </member>
-        <member name="P:Calendar.Models.EventViewModel.Location">
+        <member name="P:Calendar.Models.EventBaseModel.Location">
             <summary>
             Location of the event
             </summary>
         </member>
-        <member name="P:Calendar.Models.EventViewModel.Notes">
+        <member name="P:Calendar.Models.EventBaseModel.Notes">
             <summary>
             Notes of the event
             </summary>
         </member>
-        <member name="P:Calendar.Models.EventViewModel.StartDate">
+        <member name="P:Calendar.Models.EventBaseModel.StartDate">
             <summary>
             Start Date of the event
             </summary>
             <value>2016-09-12T17:00:00</value>
         </member>
-        <member name="P:Calendar.Models.EventViewModel.EndDate">
+        <member name="P:Calendar.Models.EventBaseModel.EndDate">
             <summary>
             End Date of the event
             </summary>
             <value>2016-09-12T18:00:00</value>
         </member>
-        <member name="P:Calendar.Models.EventViewModel.Recurrent">
+        <member name="P:Calendar.Models.EventBaseModel.Recurrent">
             <summary>
             Indicates if the event is recurrent (has repetitions in the future).
             <br/><br/>
@@ -579,6 +564,175 @@
             It stars to itarate from StartDate until EndBy and creates a list of EventRepetition. Quartz library
             is used to accomplished this purpose. <br/>
             More info: <a href="http://www.quartz-scheduler.net/" target="_blank">Quartz.NET - Quartz Enterprise Scheduler.NET</a>
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventBindingModel.EndBy">
+            <summary>
+            This is the end date for the repetitions when the event is recurrent. 
+            The iterator to generate repetitions will go on until it exceeds this date
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventBindingModel.FrequencyRule">
+             <summary>
+             Indicates the frequency rule used to calculate future repetitions. It's mandatory when the event is recurrent <br /><br/>
+             <b>1 - WEEKLY</b> <br/><br/>
+             The event is repeated weekly (Frequency=1) or every certain weeks (Frenquency=n). When using this rule
+             DayOfWeek property must be specified
+             <br/>
+             Example 1: Every Wednesday <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 1 <br/>
+               "Frequency": 1 <br/>
+               "DaysOfWeek":3 <br/>
+            <br/>
+             Example 2: Every other Tuesday <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 1 <br/>
+               "Frequency": 2 <br/>
+               "DaysOfWeek":2 <br/>
+            ---------------------------------
+            <br/><br/>
+             <b>2 - MONTHLY EVERY DAY OF THE MONTH</b> <br/><br/>
+             The event is repeated every day of a month, every month (Frequency=1) or 
+             every certain months (Frenquency=n). The day and day time are taken from StarDate property
+             <br/><br/>
+             Example 1: Every 5th of every month at 1 pm <br/>
+               "StarDate": "2016-09-05T13:00:00" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 2 <br/>
+               "Frequency": 1 <br/>
+            <br/>
+             Example 2: Every 15th of the month, every 3 months <br/>
+               "StarDate": "2016-09-15" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 1 <br/>
+               "Frequency": 3 <br></br>
+            ---------------------------------
+            <br/><br/>
+             <b>3 - MONTHLY EVERY DAY OF THE WEEK </b> <br />  
+             The event is repeated every specific day of the week, every month (Frequency=1) or 
+             every certain months (Frenquency=n). When using this rule DayOfWeek and OrdinalDayOfTheWeek properties
+             must be specified.
+             <br/><br/>
+             Example 1: The first Tuesday of every month<br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 3 <br/>
+               "Frequency": 1 <br/>
+               "DayOfWeek": 2  <br/>
+               "OrdinalDayOfTheWeek": 1 <br/>
+            <br/>
+             Example 2: The last Saturday of every month <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 3 <br/>
+               "Frequency": 1 <br/>
+               "DayOfWeek": 6  <br/>
+               "OrdinalDayOfTheWeek": 6 <br/>
+            <br/>
+             Example 3: The 2nd Friday of the month, every 3 months <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 3 <br/>
+               "Frequency": 3 <br/>
+               "DayOfWeek": 5  <br/>
+               "OrdinalDayOfTheWeek": 2 <br/>
+            ---------------------------------
+            <br/><br/>
+             <b>4 - ANUALLY EVERY DAY OF THE MONTH</b> <br/><br/>
+             The event is repeated every day of a month, every year (Frequency=1) or 
+             every certain years (Frenquency=n). The month, day and day time are taken from StarDate property
+             <br/><br/>
+             Example 1: The 23rd of February every year<br/>
+               "StarDate": "2016-02-23" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 4 <br/>
+               "Frequency": 1 <br/>
+            <br/>
+             Example 2: Every 15th of April at 9 am, every 2 years <br/>
+               "StarDate": "2016-04-15T09:00:00" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 1 <br/>
+               "Frequency": 2 <br></br>
+            ---------------------------------
+            <br/><br/>
+             <b>5 - ANUALLY EVERY DAY OF THE WEEK </b> <br />  
+             The event is repeated every specific day of the week, every year (Frequency=1) or 
+             every certain years (Frenquency=n). When using this rule DayOfWeek and OrdinalDayOfTheWeek properties
+             must be specified. The month is taken from StartDate month
+             <br/><br/>
+             Example 1: The third Tuesday in February every year<br/>
+               "StarDate": "2016-02-28" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 5 <br/>
+               "Frequency": 1 <br/>
+               "DayOfWeek": 2  <br/>
+               "OrdinalDayOfTheWeek": 3 <br/>
+            <br/>
+             Example 2: The last Thurday in November, every 3 years <br/>
+               "StarDate": "2016-11-01" <br/>
+               "Recurrent": true <br/>
+               "FrequencyRule": 5 <br/>
+               "Frequency": 3 <br/>
+               "DayOfWeek": 4  <br/>
+               "OrdinalDayOfTheWeek": 6 <br/>
+            <br/>
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventBindingModel.Frequency">
+            <summary>
+            Frequency in which repetitions will be generated. If it's not specified it assumes 1 by default <br/> <br/> 
+            Exmaple 1: if the FrequencyRule=1 (WEEKLY) and Frequency=2 means that the event is 
+            repeated every 2 weeks<br/><br/>
+            Exmaple 2: if the FrequencyRule=3 (MONTHLY EVERY DAY OF THE MONTH) and Frequency=6 
+            means that the event is repeated every 6 months<br/><br/>
+            Exmaple 3: if the FrequencyRule=4 (ANUALLY EVERY DAY OF THE MONTH) and Frequency=3 
+            means that the event is repeated every 3 years<br/><br/>
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventBindingModel.DayOfWeek">
+            <summary>
+            Indicates the day of the week when the frequency rule is WEEKLY, MONTHLY EVERY DAY OF THE WEEK
+            or ANUALLY EVERY DAY OF THE WEEK. Values:<br/><br/>
+            0 = Sunday <br/>
+            1 = Monday <br/> 
+            2 = Tuesday <br/>
+            3 = Wednesday <br/>
+            4 = Thursday <br/>
+            5 = Friday <br/>
+            6 = Saturday
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventBindingModel.OrdinalDayOfTheWeek">
+             <summary>
+             Indicates ordinal day of week within a month when the frequency rule is MONTHLY EVERY DAY OF THE WEEK
+             or ANUALLY EVERY DAY OF THE WEEK. Values:<br/><br/>
+             1 = First day of week<br/>
+             2 = Second day of week<br/> 
+             3 = Third day of week <br/>
+             4 = Fourth day of week <br/>
+             5 = Fifth day of week<br/>
+             6 = Last day of week<br/><br/>
+             Example 1: fist Tuesday of the month <br/>
+                 "DayOfWeek":2, <br/>
+                 "OrdinalDayOfTheWeek":1 <br/>
+             <br/>    
+            Example 2: last Monday of the month <br/>
+                 "DayOfWeek":1, <br/>
+                 "OrdinalDayOfTheWeek":6 <br/>
+             <br/>
+            Example 3: third Friday of the month <br/>
+                 "DayOfWeek":5, <br/>
+                 "OrdinalDayOfTheWeek":3 <br/>
+             <br/>
+             </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.EventID">
+            <summary>
+            Unique number that identifies the event.
+            This property is ignored in the creation of a new event
+            </summary>
+        </member>
+        <member name="P:Calendar.Models.EventViewModel.UserID">
+            <summary>
+            Unique identifier of the user
             </summary>
         </member>
         <member name="P:Calendar.Models.EventViewModel.EndBy">
@@ -598,13 +752,13 @@
                "Recurrent": true <br/>
                "FrequencyRule": 1 <br/>
                "Frequency": 1 <br/>
-               "DaysOfWeek":3 <br/>
+               "DayOfWeek":3 <br/>
             <br/>
              Example 2: Every other Tuesday <br/>
                "Recurrent": true <br/>
                "FrequencyRule": 1 <br/>
                "Frequency": 2 <br/>
-               "DaysOfWeek":2 <br/>
+               "DayOfWeek":2 <br/>
             ---------------------------------
             <br/><br/>
              <b>2 - MONTHLY EVERY DAY OF THE MONTH</b> <br/><br/>
@@ -758,6 +912,11 @@
             {StarDate="2016-09-19T13:00:00", EndDate="2016-09-19T15:00:00"}, etc... <br/><br/>
             Look how day time (hour, minutes, seconds) is kept in each repetition.
             </summary>
+        </member>
+        <member name="P:Calendar.Models.UserBindingModel.Name">
+            <summary>
+            Name of the user </summary>
+            <value></value>
         </member>
         <member name="P:Calendar.Models.UserViewModel.UserID">
             <summary>
