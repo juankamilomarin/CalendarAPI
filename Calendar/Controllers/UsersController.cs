@@ -226,9 +226,15 @@ namespace Calendar.Controllers
             userEvents.ForEach(e => e.State = false);
 
             User user = DbContext.Users.FirstOrDefault(u => u.UserID == userID);
-            DbContext.Users.Remove(user);
-            DbContext.SaveChanges();
-            return Ok();
+            if (user != null)
+            {
+                DbContext.Users.Remove(user);
+                DbContext.SaveChanges();
+                return Ok();
+            }else
+            {
+                return NotFound();
+            }
         }
 
         //TODO: migrate this to model state valiations
