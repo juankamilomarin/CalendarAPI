@@ -62,7 +62,7 @@ URI: /api/users/{UserID}/events/{EventID}<br/>
 <b>You may find more examples exporting this postman collection:</b>
 <br/>
 <a href="https://www.getpostman.com/collections/32cbe58c505c14ff2996" target="_blank">Get postman collection</a>
-<br/><br/>
+<br/>
 <a href="https://www.getpostman.com/" target="_blank">Install postman</a>
 
 ## Contributor
