@@ -518,13 +518,25 @@
             <param name="userID">ID of the user</param>
             <param name="eventBindingModel">Object with the information of the event</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Calendar.Controllers.UsersController.PutUserEvent(System.Int32,System.Int32,Calendar.Models.EventBindingModel)" -->
+        <member name="M:Calendar.Controllers.UsersController.PutUserEvent(System.Int32,System.Int32,Calendar.Models.EventBindingModel)">
+            <summary>
+            Updates a user event
+            </summary>
+            <param name="userID">ID of the user</param>
+            <param name="eventID">ID of the specific event to update. The API ignores the EventID property when it comes in the body</param>
+        </member>
         <member name="M:Calendar.Controllers.UsersController.DeleteUserEvent(System.Int32,System.Int32)">
             <summary>
             Deletes a specific user event
             </summary>
             <param name="userID">ID of the user</param>
             <param name="eventID">ID of the specific event</param>
+        </member>
+        <member name="M:Calendar.Controllers.UsersController.DeleteUser(System.Int32)">
+            <summary>
+            Deletes a specific user and the events it has
+            </summary>
+            <param name="userID">ID of the user</param>
         </member>
         <member name="P:Calendar.Models.EventBaseModel.Name">
             <summary>

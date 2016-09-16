@@ -159,11 +159,9 @@ namespace Calendar.Controllers
         /// Updates a user event
         /// </summary>
         /// <param name="userID">ID of the user</param>
-        /// <param name="eventID">ID of the specific event to update. The API ignores the EventID property</param>
-        /// specified in the UverViewModel</param>
-        /// <param name="userEventViewModel">Object with the information of the event</param>
+        /// <param name="eventID">ID of the specific event to update. The API ignores the EventID property when it comes in the body</param>
         [Route("api/users/{userID}/events/{eventID}")]
-        [HttpPut, ActionName("PuttUserEvent")]
+        [HttpPut, ActionName("PutUserEvent")]
         public IHttpActionResult PutUserEvent(int userID, int eventID, [FromBody]EventBindingModel userEventViewModel)
         {
             if (!ModelState.IsValid)
@@ -214,6 +212,10 @@ namespace Calendar.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes a specific user and the events it has
+        /// </summary>
+        /// <param name="userID">ID of the user</param>
         [Route("api/users/{userID}")]
         [HttpDelete]
         [Authorize]
