@@ -37,7 +37,6 @@ URI: /api/users/{UserID}/events<br/>
 BODY:<br/>
 ```javascript
 {
-  "UserID": 3,
   "Name": "Test post 2",
   "Location": "Via Skype",
   "Notes": "Some notes",
@@ -60,9 +59,11 @@ URI: /api/users/{UserID}/events<br/>
 Action: GET<br/>
 URI: /api/users/{UserID}/events/{EventID}<br/>
 <br/>
-<b>You may find more examples exporting this postman collection (<a href="https://www.getpostman.com/" target="_blank">Get postman</a>):</b>
+<b>You may find more examples exporting this postman collection:</b>
 <br/>
-https://www.getpostman.com/collections/32cbe58c505c14ff2996
+<a href="https://www.getpostman.com/collections/32cbe58c505c14ff2996" target="_blank">Get postman collection</a>
+<br/>
+<a href="https://www.getpostman.com/" target="_blank">Install postman</a>
 
 ## Contributor
 
