@@ -595,13 +595,13 @@
                "Recurrent": true <br/>
                "FrequencyRule": 1 <br/>
                "Frequency": 1 <br/>
-               "DaysOfWeek":3 <br/>
+               "DayOfWeek":3 <br/>
             <br/>
              Example 2: Every other Tuesday <br/>
                "Recurrent": true <br/>
                "FrequencyRule": 1 <br/>
                "Frequency": 2 <br/>
-               "DaysOfWeek":2 <br/>
+               "DayOfWeek":2 <br/>
             ---------------------------------
             <br/><br/>
              <b>2 - MONTHLY EVERY DAY OF THE MONTH</b> <br/><br/>

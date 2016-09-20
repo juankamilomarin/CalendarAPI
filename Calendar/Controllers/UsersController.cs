@@ -90,7 +90,7 @@ namespace Calendar.Controllers
         [ResponseType(typeof(IEnumerable<EventViewModel>))]
         public IHttpActionResult GetUserEvents(int userID)
         {
-            IEnumerable<EventViewModel> events = DbContext.Events.Where(e => e.UserID == userID).ToList().Select(e => new EventViewModel(e));
+            IEnumerable<EventViewModel> events = DbContext.Events.Where(e => e.UserID == userID && e.State == true).ToList().Select(e => new EventViewModel(e));
             return Ok(events);
         }
 
@@ -104,7 +104,7 @@ namespace Calendar.Controllers
         [ResponseType(typeof(EventViewModel))]
         public IHttpActionResult GetUserEvents(int userID, int eventID)
         {
-            Event userEvent = DbContext.Events.FirstOrDefault(e => e.UserID == userID && e.EventID == eventID);
+            Event userEvent = DbContext.Events.FirstOrDefault(e => e.UserID == userID && e.EventID == eventID && e.State == true);
             if (userEvent != null) return Ok(new EventViewModel(userEvent));
             return NotFound();
         }
@@ -175,7 +175,7 @@ namespace Calendar.Controllers
                 return BadRequest(recurrenceValidationMessage);
             }
 
-            Event userEvent = DbContext.Events.FirstOrDefault(e => e.UserID == userID && e.EventID == eventID);
+            Event userEvent = DbContext.Events.FirstOrDefault(e => e.UserID == userID && e.EventID == eventID && e.State == true);
             if (userEvent == null) return NotFound();
 
             userEvent.Name = userEventViewModel.Name;
@@ -205,7 +205,7 @@ namespace Calendar.Controllers
         [HttpDelete]
         public IHttpActionResult DeleteUserEvent(int userID, int eventID)
         {
-            Event userEvent = DbContext.Events.FirstOrDefault(e => e.UserID == userID && e.EventID == eventID);
+            Event userEvent = DbContext.Events.FirstOrDefault(e => e.UserID == userID && e.EventID == eventID && e.State == true);
             if (userEvent == null) return NotFound();
             userEvent.State = false;
             DbContext.SaveChanges();
@@ -221,13 +221,16 @@ namespace Calendar.Controllers
         [Authorize]
         public IHttpActionResult DeleteUser(int userID)
         {
-            //Deteles the events of that user
-            List<Event> userEvents = DbContext.Events.Where(e => e.UserID == userID).ToList();
-            userEvents.ForEach(e => e.State = false);
-
             User user = DbContext.Users.FirstOrDefault(u => u.UserID == userID);
             if (user != null)
             {
+                //Deteles the events of that user
+                List<Event> userEvents = DbContext.Events.Where(e => e.UserID == userID).ToList();
+                foreach (Event userEvent in userEvents)
+                {
+                    DbContext.Events.Remove(userEvent);
+                }
+
                 DbContext.Users.Remove(user);
                 DbContext.SaveChanges();
                 return Ok();
