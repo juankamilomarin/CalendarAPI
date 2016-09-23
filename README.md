@@ -1,5 +1,5 @@
 # CalendarAPI
-This is a ASP.NET Web API project that handles calendar events of users. The main resourse is users, and you can create events for each user
+This is a ASP.NET Web API project that handles calendar events of users. The main resourse is users, and you can create events for each user. It does not use type of Authentication so the main resource is Users and from there you can access users' events
 
 ## Installation
 
