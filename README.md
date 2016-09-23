@@ -1,10 +1,6 @@
 # CalendarAPI
 This is a ASP.NET Web API project that handles calendar events of users. The main resourse is users, and you can create events for each user
 
-## Motivation
-
-First coding challenge for Azend application
-
 ## Installation
 
 1. Download the project and open it on Visual Studio 2015
